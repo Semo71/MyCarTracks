@@ -81,7 +81,7 @@
         android:layout_height="32dp"
         android:layout_marginTop="68dp"
         android:gravity="center"
-        android:text="Tap To Add Date"
+        android:background="@drawable/datte"
         android:textColor="#8F8F8F"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView5"
@@ -91,7 +91,6 @@
         app:layout_constraintVertical_bias="0.13"
         tools:ignore="MissingConstraints" />
 
-    ;
 
     <ImageView
         android:id="@+id/imageView6"

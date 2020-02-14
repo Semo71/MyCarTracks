@@ -58,6 +58,7 @@ public class events extends AppCompatActivity {
                 Log.d(TAG,"OnDateSet: mm/dd/yyy: " + month2 +"/" + day2 +"/" + year2);
                 String date2 = month2 + "/" + day2 + "/" + year2;
                 mDisplayDate2.setText(date2);
+                mDisplayDate2.setBackgroundResource(0);
             }
         };
 
@@ -88,6 +89,7 @@ public class events extends AppCompatActivity {
                 Log.d(TAG, "onDateSet: mm/dd/yyy: " +month + "/" + day + "/" + year);
                 String date = month + "/" + day + "/" + year;
                 mDisplayDate.setText(date);
+                mDisplayDate.setBackgroundResource(0);
             }
         };
 
