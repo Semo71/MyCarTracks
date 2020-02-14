@@ -17,14 +17,17 @@ public class upcoming extends AppCompatActivity {
     public void button6(View v){ //كود التنقل
         Intent intent = new Intent(upcoming.this,service.class);
         startActivity(intent);
+        finish();
     }
     public void button10(View v){ // كود التنقل
         Intent intent = new Intent(upcoming.this,events.class);
         startActivity(intent);
+        finish();
     }
     public void button11 (View v){ // كود التنقل
         Intent intent = new Intent(upcoming.this,service.class);
         startActivity(intent);
+        finish();
     }
 
 }

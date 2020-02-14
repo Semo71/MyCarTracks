@@ -101,13 +101,16 @@ public class events extends AppCompatActivity {
     public void button7(View v){ //كود الانتقال للصفحه التاليه
         Intent intent = new Intent(events.this,service.class);
         startActivity(intent);
+        finish();
     }
     public void button9 (View v){ // كود الانتقال
         Intent intent = new Intent(events.this,upcoming.class);
         startActivity(intent);
+        finish();
     }
     public void button3 (View v){ // كود الانتقال
         Intent intent = new Intent(events.this,service.class);
         startActivity(intent);
+        finish();
     }
 }

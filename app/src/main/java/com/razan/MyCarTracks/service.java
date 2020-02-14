@@ -113,14 +113,17 @@ public class service extends AppCompatActivity implements AdapterView.OnItemSele
     public void button6(View v){ // كود الانتقال
         Intent intent = new Intent(service.this, upcoming.class);
         startActivity(intent);
+        finish();
     }
     public void button5(View v){ // كود الانتفال
         Intent intent = new Intent(service.this,events.class);
         startActivity(intent);
+        finish();
     }
     public void button10 (View v){ // كود التنقل
         Intent intent = new Intent(service.this,events.class);
         startActivity(intent);
+        finish();
     }
 
 
