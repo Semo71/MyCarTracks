@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class service extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ServicesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner1, spinner2;
     TextView text1;
@@ -23,6 +23,8 @@ public class service extends AppCompatActivity implements AdapterView.OnItemSele
     ArrayAdapter<String> arrayAdapter_1;
     ArrayList<String> arrayList_2;
     ArrayAdapter<String> arrayAdapter_2;
+    private Button mBackButton;
+
 
 
     @Override
@@ -34,6 +36,7 @@ public class service extends AppCompatActivity implements AdapterView.OnItemSele
 
         spinner1=(Spinner)findViewById(R.id.spinner1);
         spinner2=(Spinner)findViewById(R.id.spinner2);
+        mBackButton =findViewById(R.id.backButton);
 
         arrayList_1= new ArrayList<>();
         arrayList_1.add("Filters");
@@ -41,6 +44,13 @@ public class service extends AppCompatActivity implements AdapterView.OnItemSele
 
         arrayAdapter_1 = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_item,arrayList_1);
         spinner1.setAdapter(arrayAdapter_1);
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -62,7 +72,7 @@ public class service extends AppCompatActivity implements AdapterView.OnItemSele
 
                     if (adapterView.getItemAtPosition(i).equals("Speed Limit"))
                     {
-                        Intent intent = new Intent(service.this,upcoming.class);
+                        Intent intent = new Intent(ServicesActivity.this, UpcomingActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -107,25 +117,6 @@ public class service extends AppCompatActivity implements AdapterView.OnItemSele
 
 
     }
-
-
-
-    public void button6(View v){ // كود الانتقال
-        Intent intent = new Intent(service.this, upcoming.class);
-        startActivity(intent);
-        finish();
-    }
-    public void button5(View v){ // كود الانتفال
-        Intent intent = new Intent(service.this,events.class);
-        startActivity(intent);
-        finish();
-    }
-    public void button10 (View v){ // كود التنقل
-        Intent intent = new Intent(service.this,events.class);
-        startActivity(intent);
-        finish();
-    }
-
 
 
 

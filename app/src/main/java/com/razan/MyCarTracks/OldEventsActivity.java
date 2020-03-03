@@ -3,24 +3,20 @@ package com.razan.MyCarTracks;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.app.MediaRouteButton;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class events extends AppCompatActivity {
+public class OldEventsActivity extends AppCompatActivity {
 
-    private static  final String TAG ="events";
+    private static  final String TAG ="OldEventsActivity";
     private TextView mDisplayDate, mDisplayDate2, tv2;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private DatePickerDialog.OnDateSetListener mDateSetListener2;
@@ -29,7 +25,7 @@ public class events extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_events);
+        setContentView(R.layout.activity_old_events);
         mDisplayDate=(TextView) findViewById(R.id.tv1);
         mDisplayDate2 =(TextView) findViewById(R.id.tv2);
 
@@ -42,7 +38,7 @@ public class events extends AppCompatActivity {
                 int day2 = ca.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        events.this,
+                        OldEventsActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener2,
                         year2,month2,day2);
@@ -73,7 +69,7 @@ public class events extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        events.this,
+                        OldEventsActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year,month,day);
@@ -99,17 +95,17 @@ public class events extends AppCompatActivity {
 
 
     public void button7(View v){ //كود الانتقال للصفحه التاليه
-        Intent intent = new Intent(events.this,service.class);
+        Intent intent = new Intent(OldEventsActivity.this, ServicesActivity.class);
         startActivity(intent);
         finish();
     }
     public void button9 (View v){ // كود الانتقال
-        Intent intent = new Intent(events.this,upcoming.class);
+        Intent intent = new Intent(OldEventsActivity.this, UpcomingActivity.class);
         startActivity(intent);
         finish();
     }
     public void button3 (View v){ // كود الانتقال
-        Intent intent = new Intent(events.this,service.class);
+        Intent intent = new Intent(OldEventsActivity.this, ServicesActivity.class);
         startActivity(intent);
         finish();
     }

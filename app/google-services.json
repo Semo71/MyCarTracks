@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "797849684507",
+    "firebase_url": "https://ml-kit-image-labelling-m-27466.firebaseio.com",
+    "project_id": "ml-kit-image-labelling-m-27466",
+    "storage_bucket": "ml-kit-image-labelling-m-27466.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797849684507:android:2e79248cd54d9e1d3406be",
+        "android_client_info": {
+          "package_name": "com.razan.MyCarTracks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797849684507-h2206jsgmskgbhhdbnvt5j2fja6p86r0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.razan.MyCarTracks",
+            "certificate_hash": "9a35bc942aa68f3ca0980e93fb381199a424555e"
+          }
+        },
+        {
+          "client_id": "797849684507-oa3ojh5rr71nerag4r9aqvdj0n4emd7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBONEeEYNcxvmVLbuQR--byUYCuqfTnkgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797849684507-oa3ojh5rr71nerag4r9aqvdj0n4emd7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
