@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/welcone"
+    android:background="@drawable/welcome"
     tools:context=".UpcomingActivity">
 
 
@@ -51,6 +51,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/carInsuranceTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -58,7 +59,6 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -80,6 +80,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/vehicleInspectionTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -87,7 +88,6 @@
                 android:layout_weight="1"
                 android:background="#c0c0c0"
                 android:gravity="center"
-                android:text="2"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -108,6 +108,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/acGasTxtV"
                 android:layout_width="235dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -115,7 +116,6 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:text="3"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -136,6 +136,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/beltsTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -143,7 +144,6 @@
                 android:layout_weight="1"
                 android:background="#c0c0c0"
                 android:gravity="center"
-                android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -164,6 +164,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/sparkPlugsTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -171,7 +172,6 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -192,6 +192,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/wheelsTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -199,7 +200,6 @@
                 android:layout_weight="1"
                 android:background="#c0c0c0"
                 android:gravity="center"
-                android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -220,6 +220,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/batteryTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -227,7 +228,6 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -248,6 +248,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/filtersTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -255,7 +256,6 @@
                 android:layout_weight="1"
                 android:background="#c0c0c0"
                 android:gravity="center"
-                android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -276,6 +276,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/speedLimitsTxtV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
@@ -283,7 +284,6 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 

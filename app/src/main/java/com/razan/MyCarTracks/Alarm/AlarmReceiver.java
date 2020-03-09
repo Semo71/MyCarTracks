@@ -7,50 +7,61 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
-
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 
+import com.razan.MyCarTracks.EventsActivity;
 import com.razan.MyCarTracks.R;
 import com.razan.MyCarTracks.UpcomingActivity;
 
 import static com.razan.MyCarTracks.SharedPrefsManager.MyApplication.NOTIFICATION_CHANNEL_ID;
 
+/** BroadcastReceiver that fires up when the alarm goes off to send a notification **/
 public class AlarmReceiver extends BroadcastReceiver {
+
+    String title;
+    String message;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        title = intent.getStringExtra("title");
+        message = intent.getStringExtra("message");
 
-        Log.e("onReceive","onReceive");
-        sendMyNotification("Test","Test",context);
+        sendMyNotification(title, "You have " + title + " at " + message, context);
+
     }
-    private void sendMyNotification(String title,String message,Context context) {
-        //On click of notification it redirect to this Activity
-        Log.d("TimeInMillis","sendMyNotification");
+
+    /** Method to send notification, Arguments (Notification Title, Notification Message,
+     *  The Context of the BroadcastReceiver) **/
+    private void sendMyNotification(String title, String message, Context context) {
+
+        /** Serious of intents that starts when notification is pressed **/
+        Intent intentEventsActivity = new Intent (context, EventsActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(EventsActivity.class);
+        stackBuilder.addNextIntent(intentEventsActivity);
+        Intent intentUpcomingActivity = new Intent (context, UpcomingActivity.class);
+        stackBuilder.addNextIntent(intentUpcomingActivity);
+        PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        Intent intent = new Intent(context, UpcomingActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 563,
-                intent, PendingIntent.FLAG_ONE_SHOT);
-
-
-        Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context,NOTIFICATION_CHANNEL_ID)
+        /** Creating the notification **/
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSound(soundUri)
+                .setAutoCancel(true)
                 .setContentIntent(contentIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, notificationBuilder.build());
+        assert notificationManager != null;
+        notificationManager.notify((int) System.currentTimeMillis(), notificationBuilder.build());
     }
 
 }

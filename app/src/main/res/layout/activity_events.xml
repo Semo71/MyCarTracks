@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/welcone"
+    android:background="@drawable/welcome"
     tools:context=".EventsActivity">
+
 
 
     <ImageView
@@ -20,130 +21,109 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/upcomingImageView"
-        android:layout_width="189dp"
-        android:layout_height="144dp"
-        android:layout_marginEnd="192dp"
-        android:layout_marginRight="192dp"
-        android:src="@drawable/rectangle"
-        app:layout_constraintBottom_toBottomOf="@+id/addServicesImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addServicesImageView"
-        app:layout_constraintVertical_bias="1.0" />
+    <LinearLayout
+        android:id="@+id/carServicesLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/imageView4"
+        android:layout_marginTop="-10dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:padding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@drawable/background_white_with_black_border">
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="110dp"
-        android:layout_height="71dp"
-        android:src="@drawable/photo1"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-        app:layout_constraintEnd_toEndOf="@+id/upcomingImageView"
-        app:layout_constraintStart_toStartOf="@+id/upcomingImageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="CAR SERVICES"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="189dp"
-        android:layout_height="144dp"
-        android:layout_marginTop="192dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginRight="55dp"
-        android:layout_marginBottom="128dp"
-        android:src="@drawable/rectangle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.664"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.0" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_car_maintenance_black_24dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
 
-    <ImageView
-        android:id="@+id/addServicesImageView"
-        android:layout_width="189dp"
-        android:layout_height="144dp"
-        android:layout_marginStart="222dp"
-        android:layout_marginLeft="222dp"
-        android:src="@drawable/rectangle"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Tap To Add Service"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/darkGray"
+            android:layout_marginTop="10dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/upcomingServicesLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/carServicesLL"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:padding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@drawable/background_white_with_black_border">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="UPCOMING SERVICES"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_car_view_service"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Tap To View Services"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/darkGray"
+            android:layout_marginTop="10dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="110dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="68dp"
-        android:gravity="center"
-        android:background="@drawable/datte"
-        android:textColor="#8F8F8F"
-        app:layout_constraintBottom_toBottomOf="@+id/upcomingImageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.13"
-        tools:ignore="MissingConstraints" />
-
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="110dp"
-        android:layout_height="71dp"
-        android:src="@drawable/photo2"
-        app:layout_constraintBottom_toBottomOf="@+id/button3"
-        app:layout_constraintEnd_toEndOf="@+id/addServicesImageView"
-        app:layout_constraintHorizontal_bias="0.481"
-        app:layout_constraintStart_toStartOf="@+id/addServicesImageView"
-        app:layout_constraintTop_toTopOf="@+id/addServicesImageView"
-        app:layout_constraintVertical_bias="0.396" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="110dp"
-        android:layout_height="71dp"
-        android:src="@drawable/photo3"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.544"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.273" />
-
-
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="110dp"
-        android:layout_height="32dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/datte"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.986"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="110dp"
-        android:layout_height="32dp"
-        android:background="@drawable/bu1"
-        app:layout_constraintBottom_toBottomOf="@+id/addServicesImageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView6"
-        app:layout_constraintTop_toTopOf="@+id/addServicesImageView"
-        app:layout_constraintVertical_bias="0.812"
-        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
