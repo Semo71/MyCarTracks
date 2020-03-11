@@ -6,10 +6,11 @@ import android.app.NotificationManager;
 import android.os.Build;
 import android.util.Log;
 
-//Class that fires up when app starting before all activities
+
+/** Class that fires up when app starting before all activities **/
 public class MyApplication extends Application {
 
-    //Notification Channel Variables
+    /** Notification Channel Variables **/
     public static final String NOTIFICATION_CHANNEL_ID = "MyCarTracksID";
     public static final String NOTIFICATION_CHANNEL_NAME = "MyCarTracksName";
     public static final String NOTIFICATION_CHANNEL_DESCRIPTION = "MyCarTracksDescription";

@@ -54,9 +54,7 @@ public class AddReminderActivity extends AppCompatActivity {
     private boolean hour24;
 
 
-    /**
-     * To Activate back arrow in Action Toolbar
-     **/
+    /** To Activate back arrow in Action Toolbar **/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -75,17 +73,19 @@ public class AddReminderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_reminder);
 
         mContext = AddReminderActivity.this;
-        //Getting Service Name from the past activity
+
+        /** Getting Service Name from the past activity **/
         serviceName = getIntent().getStringExtra("ServiceName");
         mServicesModel = ServicesDateManager.getServicesModel(serviceName);
-        //mURI=getIntent().getData();
-        //Log.d("URI",mURI.toString());
-        Log.d("myapp", Log.getStackTraceString(new Exception()));
 
-
+        /** Calling Methods **/
         connectUiComponent();
         handleCalender();
         updatingUIViews();
+
+
+        /** setOnClickListener for all buttons **/
+
 
         mServiceDateLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,11 +122,13 @@ public class AddReminderActivity extends AppCompatActivity {
             }
         });
 
+        /** Calling Methods **/
         setOnDateSetListener();
         setOnTimeSetListener();
     }
 
-    //Connecting UI Views with id from xml file
+
+    /** Connecting UI Views with id from xml file **/
     private void connectUiComponent() {
         mServiceNameTxtV = findViewById(R.id.serviceNameTxtV);
         mChosenDateTxtV = findViewById(R.id.chosenDateTxtV);
@@ -138,7 +140,7 @@ public class AddReminderActivity extends AppCompatActivity {
         mServiceTimeLL = findViewById(R.id.serviceTimeLL);
     }
 
-    //Handling Calender Initialization for 2 cases (Service Model != null and Service Model == null)
+    /** Handling Calender Initialization for 2 cases (Service Model != null and Service Model == null) **/
     private void handleCalender() {
         if (mServicesModel.getCalendar() != null) {
             mCalendar = mServicesModel.getCalendar();
@@ -153,7 +155,8 @@ public class AddReminderActivity extends AppCompatActivity {
         hour24 = false;
     }
 
-    //Updating UI views in case Service Model != null
+
+    /** Updating UI views in case Service Model != null **/
     private void updatingUIViews() {
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("Add Reminder");
@@ -167,7 +170,8 @@ public class AddReminderActivity extends AppCompatActivity {
         }
     }
 
-    //Initialize and show Date Picker Dialog
+
+    /** Initialize and show Date Picker Dialog **/
     private void showDatePickerDialog() {
         DatePickerDialog mDatePickerDialog = new DatePickerDialog(
                 mContext,
@@ -181,7 +185,8 @@ public class AddReminderActivity extends AppCompatActivity {
 
     }
 
-    //Initialize and show Time Picker Dialog
+
+    /** Initialize and show Time Picker Dialog **/
     private void showTimePickerDialog() {
         TimePickerDialog mTimePickerDialog = new TimePickerDialog(
                 mContext,
@@ -195,8 +200,8 @@ public class AddReminderActivity extends AppCompatActivity {
         mTimePickerDialog.show();
     }
 
-    //Assigning year, month and day variables when pressing ok button in date picker dialog,
-    //then calling updateDateTxtV() method
+    /** Assigning year, month and day variables when pressing ok button in date picker dialog,
+     * then calling updateDateTxtV() method **/
     private void setOnDateSetListener() {
         mOnDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -210,8 +215,8 @@ public class AddReminderActivity extends AppCompatActivity {
         };
     }
 
-    //Assigning hour and minute variables when pressing ok button in time dialog,
-    //then calling updateTimeTxtV() method
+    /** Assigning hour and minute variables when pressing ok button in time dialog,
+     * then calling updateTimeTxtV() method **/
     private void setOnTimeSetListener() {
         mOnTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -223,14 +228,16 @@ public class AddReminderActivity extends AppCompatActivity {
         };
     }
 
-    //Handling date format and Updating the Date Text View
+
+    /** Handling date format and Updating the Date Text View **/
     private void updateDateTxtV() {
         int monthInt = month + 1;
         chosenDate = day + "/" + monthInt + "/" + year;
         mChosenDateTxtV.setText(chosenDate);
     }
 
-    //Handling AM and PM format and Updating the Time Text View
+
+    /** Handling AM and PM format and Updating the Time Text View **/
     private void updateTimeTxtV() {
         String am_pm;
 
@@ -254,8 +261,10 @@ public class AddReminderActivity extends AppCompatActivity {
     }
 
 
-    //Setting an alarm and saving service in SharedPreference
+
+    /** Setting an alarm and saving service in SharedPreference **/
     private void setAnAlarm() {
+
         if (year != null && hour != null) {
             PendingIntent mPendingIntent;
             AlarmManager mAlarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
