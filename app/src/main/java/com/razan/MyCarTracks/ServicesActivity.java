@@ -58,6 +58,7 @@ public class ServicesActivity extends AppCompatActivity {
         ArrayAdapter<String> serviceBySensorAdapter;
 
         serviceBySensorList = new ArrayList<>();
+        serviceBySensorList.add("Choose Service");
         serviceBySensorList.add("Filters");
         serviceBySensorList.add("Speed Limit");
 
@@ -72,10 +73,15 @@ public class ServicesActivity extends AppCompatActivity {
                 String item = adapterView.getItemAtPosition(i).toString();
 
                 switch (i) {
-                    case 0://Filters
+                    case 0://
                         //Do Something
                         break;
-                    case 1://Speed Limit
+                    case 1://Filters
+                        //Do Something
+                        UpcomingActivity.query.removeEventListener(UpcomingActivity.valueEventListener);
+
+                        break;
+                    case 2://Speed Limit
                         //Do Something
 
                         break;

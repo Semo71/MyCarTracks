@@ -1,9 +1,14 @@
 package com.razan.MyCarTracks;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +32,7 @@ public class EventsActivity extends AppCompatActivity {
         mCarServicesLL = findViewById(R.id.carServicesLL);
         mUpcomingServicesLL = findViewById(R.id.upcomingServicesLL);
 
+
         /** Intent to go to UpcomingActivity class **/
         mUpcomingServicesLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,5 +51,7 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }
