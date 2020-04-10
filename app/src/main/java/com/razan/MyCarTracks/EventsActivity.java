@@ -1,16 +1,9 @@
 package com.razan.MyCarTracks;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.TaskStackBuilder;
-
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -55,3 +48,5 @@ public class EventsActivity extends AppCompatActivity {
 
 
 }
+
+

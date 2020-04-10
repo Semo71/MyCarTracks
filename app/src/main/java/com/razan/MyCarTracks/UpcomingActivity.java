@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,10 +23,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.razan.MyCarTracks.Alarm.SensorDataManager;
 import com.razan.MyCarTracks.Alarm.ServicesDateManager;
 import com.razan.MyCarTracks.SharedPrefsManager.SharedPrefsKeys;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.razan.MyCarTracks.SharedPrefsManager.MyApplication.NOTIFICATION_CHANNEL_ID;
 
@@ -45,7 +52,7 @@ public class UpcomingActivity extends AppCompatActivity {
 
     public static Query query;
     public static ValueEventListener valueEventListener;
-
+    List<SensorDataModel> mSensorDataModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +74,16 @@ public class UpcomingActivity extends AppCompatActivity {
 
     //Connecting UI Views with id from xml file
     private void connectUiComponent() {
-        mBackButton =findViewById(R.id.backButton);
-        mCarInsuranceTxtV =findViewById(R.id.carInsuranceTxtV);
-        mVehicleInspectionTxtV =findViewById(R.id.vehicleInspectionTxtV);
-        mAcGasTxtV =findViewById(R.id.acGasTxtV);
-        mBeltsTxtV =findViewById(R.id.beltsTxtV);
-        mSparkPlugsTxtV =findViewById(R.id.sparkPlugsTxtV);
-        mWheelsTxtV =findViewById(R.id.wheelsTxtV);
-        mFiltersTxtV =findViewById(R.id.filtersTxtV);
-        mSpeedLimitsTxtV =findViewById(R.id.speedLimitsTxtV);
-        mBatteryTxtV =findViewById(R.id.batteryTxtV);
+        mBackButton = findViewById(R.id.backButton);
+        mCarInsuranceTxtV = findViewById(R.id.carInsuranceTxtV);
+        mVehicleInspectionTxtV = findViewById(R.id.vehicleInspectionTxtV);
+        mAcGasTxtV = findViewById(R.id.acGasTxtV);
+        mBeltsTxtV = findViewById(R.id.beltsTxtV);
+        mSparkPlugsTxtV = findViewById(R.id.sparkPlugsTxtV);
+        mWheelsTxtV = findViewById(R.id.wheelsTxtV);
+        mFiltersTxtV = findViewById(R.id.filtersTxtV);
+        mSpeedLimitsTxtV = findViewById(R.id.speedLimitsTxtV);
+        mBatteryTxtV = findViewById(R.id.batteryTxtV);
     }
 
     //Updating UI views in case Service Model for each service != null
@@ -106,32 +113,56 @@ public class UpcomingActivity extends AppCompatActivity {
 
     //Returning a date format string from calender parameter
     private String getDateFormat(Calendar calendar) {
-        int month = calendar.get(Calendar.MONTH)+1;
+        int month = calendar.get(Calendar.MONTH) + 1;
         return calendar.get(Calendar.DAY_OF_MONTH) + "/" + month
                 + "/" + calendar.get(Calendar.YEAR);
     }
 
-    private void retrieveSensorData(){
+    //Retrieving Sensor data from Firebase
+    private void retrieveSensorData() {
         query = FirebaseDatabase.getInstance().getReference().child("SensorData");
-
-        if (valueEventListener==null){
+        if (valueEventListener == null) {
             valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()){
+                    if (dataSnapshot.exists()) {
+                        mSensorDataModelList = new ArrayList<>();
+                        int distance = 0;
+                        SensorDataModel lastSensorDataModel;
+                        double speed;
+                        int lastPosition;
 
-                        //List<SensorDataModel> mSensorDataModelList = new ArrayList<>();
-                        for (DataSnapshot mDataSnapshot:dataSnapshot.getChildren()){
+                        for (DataSnapshot mDataSnapshot : dataSnapshot.getChildren()) {
                             SensorDataModel mSensorDataModel = mDataSnapshot.getValue(SensorDataModel.class);
-                            //mSensorDataModelList.add(mSensorDataModel);
-                            if (mSensorDataModel.getDistance()>3)
-                                sendMyNotification("Distance",""+mSensorDataModel.getDistance(),mContext);
-
-
+                            mSensorDataModel.setFirebaseID(mDataSnapshot.getKey());
+                            mSensorDataModelList.add(mSensorDataModel);
+                            distance += mSensorDataModel.getDistance();
                         }
 
-                    }else {
-                        Toast.makeText(mContext,"Data not exist",Toast.LENGTH_LONG).show();
+                        sortList();
+
+                        lastPosition = mSensorDataModelList.size() - 1;
+                        lastSensorDataModel = mSensorDataModelList.get(lastPosition);
+                        speed = Double.parseDouble(lastSensorDataModel.getSpeed());
+
+                        if (SensorDataManager.getSpeedLimit().isActivated()) {
+                            mSpeedLimitsTxtV.setText(speed + " Km");
+                            if (speed > SensorDataManager.getSpeedLimit().getEnteredValue() && !lastSensorDataModel.isReceived()){
+                                sendMyNotification("Speed Limit", "You exceeded the speed limit " + speed + " Km", mContext);
+                                lastSensorDataModel.setReceived(true);
+                                FirebaseDatabase.getInstance().getReference("SensorData").child(lastSensorDataModel.getFirebaseID()).child("received").setValue(true);
+                            }
+                        }
+
+                        if (SensorDataManager.getFilter().isActivated()) {
+                            mFiltersTxtV.setText(distance + " Km");
+                            if (distance > SensorDataManager.getFilter().getEnteredValue())
+                                sendMyNotification("Change your filter", "You drove for " + distance + " Km", mContext);
+                        }
+
+
+                    } else {
+                        Toast.makeText(mContext, "Data not exist", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -146,16 +177,38 @@ public class UpcomingActivity extends AppCompatActivity {
 
     }
 
-    /** Method to send notification, Arguments (Notification Title, Notification Message,
-     *  The Context of the BroadcastReceiver) **/
+    //Sort List of SensorDataModel based on timestamp
+    private void sortList() {
+        Log.d("mSensorDataModelList1", new Gson().toJson(mSensorDataModelList));
+        Collections.sort(mSensorDataModelList, new Comparator<SensorDataModel>() {
+            @Override
+            public int compare(SensorDataModel s1, SensorDataModel s2) {
+                long a = Long.parseLong(s1.getTimeStamp());
+                long b = Long.parseLong(s2.getTimeStamp());
+                if (a < b)
+                    return -1;
+                else if (a == b) // it's equals
+                    return 0;
+                else
+                    return 1;
+            }
+        });
+        Log.d("mSensorDataModelList2", new Gson().toJson(mSensorDataModelList));
+
+    }
+
+    /**
+     * Method to send notification, Arguments (Notification Title, Notification Message,
+     * The Context of the BroadcastReceiver)
+     **/
     private void sendMyNotification(String title, String message, Context context) {
 
         /** Serious of intents that starts when notification is pressed **/
-        Intent intentEventsActivity = new Intent (context, EventsActivity.class);
+        Intent intentEventsActivity = new Intent(context, EventsActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(EventsActivity.class);
         stackBuilder.addNextIntent(intentEventsActivity);
-        Intent intentUpcomingActivity = new Intent (context, UpcomingActivity.class);
+        Intent intentUpcomingActivity = new Intent(context, UpcomingActivity.class);
         stackBuilder.addNextIntent(intentUpcomingActivity);
         PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 

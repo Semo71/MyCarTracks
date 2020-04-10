@@ -12,15 +12,21 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.razan.MyCarTracks.Alarm.AddReminderActivity;
+import com.razan.MyCarTracks.Alarm.SensorDataManager;
 import com.razan.MyCarTracks.SharedPrefsManager.SharedPrefsKeys;
 
 import java.util.ArrayList;
 
 public class ServicesActivity extends AppCompatActivity {
 
-    Spinner serviceBySensorSpinner, serviceByDateSpinner;
+    private Spinner serviceBySensorSpinner, serviceByDateSpinner;
     private Button mBackButton;
     private Context mContext;
+    private SensorDialog mSensorDialog;
+    public static final int FILTER = 1;
+    public static final int SPEED_LIMIT = 2;
+    SensorDataModel mSensorDataModel;
+
 
 
     @Override
@@ -32,6 +38,8 @@ public class ServicesActivity extends AppCompatActivity {
         serviceByDateSpinner = findViewById(R.id.spinner2);
         mBackButton = findViewById(R.id.backButton);
         mContext = ServicesActivity.this;
+        mSensorDialog = new SensorDialog(mContext);
+        mSensorDataModel = new SensorDataModel();
         prepareServiceBySensorSpinner();
         prepareServiceByDateSpinner();
 
@@ -49,10 +57,11 @@ public class ServicesActivity extends AppCompatActivity {
         super.onResume();
         /** Setting both Spinners Selection to 0 **/
         serviceByDateSpinner.setSelection(0);
-        serviceBySensorSpinner.setSelection(0);
     }
 
-    /** Preparing Service By Sensor Spinner **/
+    /**
+     * Preparing Service By Sensor Spinner
+     **/
     private void prepareServiceBySensorSpinner() {
         ArrayList<String> serviceBySensorList;
         ArrayAdapter<String> serviceBySensorAdapter;
@@ -69,23 +78,15 @@ public class ServicesActivity extends AppCompatActivity {
         serviceBySensorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                String item = adapterView.getItemAtPosition(i).toString();
-
                 switch (i) {
-                    case 0://
-                        //Do Something
+                    case 0:
                         break;
                     case 1://Filters
-                        //Do Something
-                        UpcomingActivity.query.removeEventListener(UpcomingActivity.valueEventListener);
-
+                        showDialog(FILTER, "Filter", "Enter Filter in Km");
                         break;
                     case 2://Speed Limit
-                        //Do Something
-
+                        showDialog(SPEED_LIMIT, "Speed Limit", "Enter Speed Limit in Km");
                         break;
-
                 }
 
             }
@@ -99,7 +100,9 @@ public class ServicesActivity extends AppCompatActivity {
 
     }
 
-    /** Preparing Service By Date Spinner **/
+    /**
+     * Preparing Service By Date Spinner
+     **/
     private void prepareServiceByDateSpinner() {
         ArrayAdapter<String> serviceByDateAdapter;
         final ArrayList<String> serviceByDateList;
@@ -121,7 +124,7 @@ public class ServicesActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (i!=0){
+                if (i != 0) {
                     sendToAddReminderActivity(serviceByDateList.get(i));
                 }
             }
@@ -134,11 +137,32 @@ public class ServicesActivity extends AppCompatActivity {
     }
 
 
-    /** Send to AddReminderActivity with Service Name **/
+    /**
+     * Send to AddReminderActivity with Service Name
+     **/
     private void sendToAddReminderActivity(String serviceName) {
         Intent intent = new Intent(mContext, AddReminderActivity.class);
         intent.putExtra("ServiceName", serviceName);
         startActivity(intent);
     }
+
+
+    //Show custom dialog from SensorDialog class
+    private void showDialog(final int type, String title, String hint) {
+        serviceBySensorSpinner.setSelection(0);
+        mSensorDialog.showDialog(type,title, hint, new SensorDialog.OnClicks() {
+            @Override
+            public void onSaveClickListener(boolean activated, String editTextValue) {
+                mSensorDataModel.setActivated(activated);
+                mSensorDataModel.setEnteredValue(Integer.parseInt(editTextValue));
+                if (type == FILTER)
+                    SensorDataManager.setFilter(mSensorDataModel);
+                else if (type == SPEED_LIMIT)
+                    SensorDataManager.setSpeedLimit(mSensorDataModel);
+
+            }
+        });
+    }
+
 
 }
