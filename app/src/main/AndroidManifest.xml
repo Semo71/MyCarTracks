@@ -22,7 +22,6 @@
         <activity android:name=".EventsActivity" />
         <activity android:name=".UpcomingActivity" />
         <activity android:name=".ServicesActivity" />
-        <activity android:name=".OldEventsActivity" />
         <activity android:name=".MainActivity" android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

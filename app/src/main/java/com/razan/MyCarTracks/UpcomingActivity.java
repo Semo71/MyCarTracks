@@ -21,12 +21,12 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.razan.MyCarTracks.Alarm.SensorDataManager;
 import com.razan.MyCarTracks.Alarm.ServicesDateManager;
 import com.razan.MyCarTracks.SharedPrefsManager.SharedPrefsKeys;
+import com.razan.MyCarTracks.SharedPrefsManager.SharedPrefsManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,8 +50,6 @@ public class UpcomingActivity extends AppCompatActivity {
     private TextView mSpeedLimitsTxtV;
     private Context mContext;
 
-    public static Query query;
-    public static ValueEventListener valueEventListener;
     List<SensorDataModel> mSensorDataModelList;
 
     @Override
@@ -120,61 +118,59 @@ public class UpcomingActivity extends AppCompatActivity {
 
     //Retrieving Sensor data from Firebase
     private void retrieveSensorData() {
-        query = FirebaseDatabase.getInstance().getReference().child("SensorData");
-        if (valueEventListener == null) {
-            valueEventListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        mSensorDataModelList = new ArrayList<>();
-                        int distance = 0;
-                        SensorDataModel lastSensorDataModel;
-                        double speed;
-                        int lastPosition;
+        FirebaseDatabase.getInstance().getReference().child("SensorData").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    mSensorDataModelList = new ArrayList<>();
+                    int distance = 0;
+                    SensorDataModel lastSensorDataModel;
+                    double speed;
+                    int lastPosition;
 
-                        for (DataSnapshot mDataSnapshot : dataSnapshot.getChildren()) {
-                            SensorDataModel mSensorDataModel = mDataSnapshot.getValue(SensorDataModel.class);
-                            mSensorDataModel.setFirebaseID(mDataSnapshot.getKey());
-                            mSensorDataModelList.add(mSensorDataModel);
-                            distance += mSensorDataModel.getDistance();
-                        }
-
-                        sortList();
-
-                        lastPosition = mSensorDataModelList.size() - 1;
-                        lastSensorDataModel = mSensorDataModelList.get(lastPosition);
-                        speed = Double.parseDouble(lastSensorDataModel.getSpeed());
-
-                        if (SensorDataManager.getSpeedLimit().isActivated()) {
-                            mSpeedLimitsTxtV.setText(speed + " Km");
-                            if (speed > SensorDataManager.getSpeedLimit().getEnteredValue() && !lastSensorDataModel.isReceived()){
-                                sendMyNotification("Speed Limit", "You exceeded the speed limit " + speed + " Km", mContext);
-                                lastSensorDataModel.setReceived(true);
-                                FirebaseDatabase.getInstance().getReference("SensorData").child(lastSensorDataModel.getFirebaseID()).child("received").setValue(true);
-                            }
-                        }
-
-                        if (SensorDataManager.getFilter().isActivated()) {
-                            mFiltersTxtV.setText(distance + " Km");
-                            if (distance > SensorDataManager.getFilter().getEnteredValue())
-                                sendMyNotification("Change your filter", "You drove for " + distance + " Km", mContext);
-                        }
-
-
-                    } else {
-                        Toast.makeText(mContext, "Data not exist", Toast.LENGTH_LONG).show();
+                    for (DataSnapshot mDataSnapshot : dataSnapshot.getChildren()) {
+                        SensorDataModel mSensorDataModel = mDataSnapshot.getValue(SensorDataModel.class);
+                        mSensorDataModel.setFirebaseID(mDataSnapshot.getKey());
+                        mSensorDataModelList.add(mSensorDataModel);
+                        distance += mSensorDataModel.getDistance();
                     }
+
+                    sortList();
+
+                    lastPosition = mSensorDataModelList.size() - 1;
+                    lastSensorDataModel = mSensorDataModelList.get(lastPosition);
+                    speed = Double.parseDouble(lastSensorDataModel.getSpeed());
+
+
+                    String LocalSpeedTimestamp = SharedPrefsManager.getInstance().getString(SharedPrefsKeys.LOCAL_SPEED_TIMESTAMP, "Empty");
+                    if (SensorDataManager.getSpeedLimit().isActivated()) {
+                        mSpeedLimitsTxtV.setText(speed + " Km");
+                        if (speed > SensorDataManager.getSpeedLimit().getEnteredValue() && !LocalSpeedTimestamp.equals(lastSensorDataModel.getTimeStamp())) {
+                            SharedPrefsManager.getInstance().setString(SharedPrefsKeys.LOCAL_SPEED_TIMESTAMP, lastSensorDataModel.getTimeStamp());
+                            sendMyNotification("Speed Limit", "You exceeded the speed limit " + speed + " Km", mContext);
+                        }
+                    }
+
+                    String LocalFilterTimestamp = SharedPrefsManager.getInstance().getString(SharedPrefsKeys.LOCAL_FILTER_TIMESTAMP, "Empty");
+                    if (SensorDataManager.getFilter().isActivated()) {
+                        mFiltersTxtV.setText(distance + " Km");
+                        if (distance > SensorDataManager.getFilter().getEnteredValue() && !LocalFilterTimestamp.equals(lastSensorDataModel.getTimeStamp())){
+                            SharedPrefsManager.getInstance().setString(SharedPrefsKeys.LOCAL_FILTER_TIMESTAMP, lastSensorDataModel.getTimeStamp());
+                            sendMyNotification("Change your filter", "You drove for " + distance + " Km", mContext);
+                        }
+                    }
+
+
+                } else {
+                    Toast.makeText(mContext, "Data not exist", Toast.LENGTH_LONG).show();
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            };
-            query.addValueEventListener(valueEventListener);
-
-        }
-
+            }
+        });
     }
 
     //Sort List of SensorDataModel based on timestamp

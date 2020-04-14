@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.razan.MyCarTracks.Alarm.SensorDataManager;
 
-/** Custom Dialog show dialog method can be called from any class **/
+/**
+ * Custom Dialog show dialog method can be called from any class
+ **/
 public class SensorDialog {
 
     private Dialog mDialog;
@@ -53,25 +55,33 @@ public class SensorDialog {
             }
         });
 
-        if (type == ServicesActivity.FILTER)
+        if (type == ServicesActivity.FILTER) {
             mActivateCheckB.setChecked(SensorDataManager.getFilter().isActivated());
-        else if (type == ServicesActivity.SPEED_LIMIT)
+            if (SensorDataManager.getFilter().getEnteredValue() != 0)
+                mEditText.setText(""+SensorDataManager.getFilter().getEnteredValue());
+        } else if (type == ServicesActivity.SPEED_LIMIT) {
             mActivateCheckB.setChecked(SensorDataManager.getSpeedLimit().isActivated());
+            if (SensorDataManager.getSpeedLimit().getEnteredValue() != 0)
+                mEditText.setText(""+SensorDataManager.getSpeedLimit().getEnteredValue());
+
+        }
 
         mTitleTxtV.setText(title);
         mEditText.setHint(hint);
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mActivateCheckB.isChecked() && !mEditText.getText().toString().trim().isEmpty())
+                if (mActivateCheckB.isChecked() && !mEditText.getText().toString().trim().isEmpty()){
                     onClicks.onSaveClickListener(true, mEditText.getText().toString().trim());
+                    mDialog.cancel();
+                }
                 else if (mActivateCheckB.isChecked() && mEditText.getText().toString().trim().isEmpty())
                     Toast.makeText(mContext, "Please Enter Value", Toast.LENGTH_SHORT).show();
-                else if (!mActivateCheckB.isChecked())
-                    onClicks.onSaveClickListener(false, "");
+                else if (!mActivateCheckB.isChecked()){
+                    onClicks.onSaveClickListener(false, "0");
+                    mDialog.cancel();
+                }
 
-                mDialog.cancel();
-                mDialog.dismiss();
 
             }
         });

@@ -9,7 +9,6 @@ public class SensorDataModel {
     private String timeStamp;
     private boolean activated = false;
     private int enteredValue;
-    private boolean received = false;
     private String firebaseID;
 
 
@@ -19,14 +18,6 @@ public class SensorDataModel {
 
     public void setFirebaseID(String firebaseID) {
         this.firebaseID = firebaseID;
-    }
-
-    public boolean isReceived() {
-        return received;
-    }
-
-    public void setReceived(boolean received) {
-        this.received = received;
     }
 
     public String getTimeStamp() {

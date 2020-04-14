@@ -11,4 +11,8 @@ public class SharedPrefsKeys {
     public static final String WHEELS = "Wheels";
     public static final String BATTERY = "Battery";
 
+
+    public static final String LOCAL_FILTER_TIMESTAMP = "LOCAL_FILTER_TIMESTAMP";
+    public static final String LOCAL_SPEED_TIMESTAMP = "LOCAL_SPEED_TIMESTAMP";
+
 }
